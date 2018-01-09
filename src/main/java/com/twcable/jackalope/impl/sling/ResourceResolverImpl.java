@@ -28,6 +28,7 @@ import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.jcr.api.SlingRepository;
+import org.apache.sling.xss.XSSAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,12 +54,14 @@ public class ResourceResolverImpl implements ResourceResolver {
 
     private final Session session;
     private boolean isLive = true;
+    private SlingRepository repository;
 
 
     @SuppressWarnings("ConstantConditions")
     public ResourceResolverImpl(@Nonnull SlingRepository repository) {
         if (repository == null) throw new IllegalArgumentException("Repository cannot be null.");
         try {
+            this.repository = repository;
             this.session = repository.login();
         }
         catch (RepositoryException re) {
@@ -316,6 +319,7 @@ public class ResourceResolverImpl implements ResourceResolver {
     public <AdapterType> AdapterType adaptTo(Class<AdapterType> type) {
         if (type.equals(Session.class)) return (AdapterType)session;
         if (type.equals(PageManager.class)) return (AdapterType)new PageManagerImpl(this);
+        if (type.equals(XSSAPI.class)) return (AdapterType)new XSSAPIImpl(repository);
         else return null;
     }
 

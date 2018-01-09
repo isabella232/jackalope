@@ -21,6 +21,7 @@ repositories {
 
     // Adobe-specific artifacts
     maven {
+        mavenLocal()
         url "http://repo.adobe.com/nexus/content/groups/public"
     }
 }
@@ -36,6 +37,7 @@ dependencies {
     compile "javax.jcr:jcr:2.0"
     compile "com.google.guava:guava:15.0"
     compile "org.apache.sling:org.apache.sling.jcr.resource:2.5.0"
+    compile "org.apache.sling:org.apache.sling.xss:1.0.2"
     compile "org.slf4j:slf4j-api:1.7.6"
     compile "javax.servlet:servlet-api:2.5"
     compile "commons-io:commons-io:2.4"
